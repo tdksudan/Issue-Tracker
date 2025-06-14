@@ -22,8 +22,8 @@ module.exports = function (app) {
       const { issue_title, issue_text, created_by, assigned_to ='',status_text=''}=req.body;
 
       if (!issue_title || !issue_text || !created_by){
-        return res.json({
-          error: 'required field(s) missing'
+        return res.status(200).json({
+          error: 'required fields missing'
         });
       }
         try {

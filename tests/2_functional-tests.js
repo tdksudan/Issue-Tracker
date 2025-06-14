@@ -51,5 +51,19 @@ suite('Functional Tests', function () {
           done();
         });
     });
+    test("Create an issue with missing required fields",function (done){
+      chai.request(server)
+        .post("/api/issues/"+project)
+        .send({
+          issue_title:"",
+          issue_text: "",
+          created_by: ""
+        })
+        .end(function (err, res){
+          assert.equal(res.status, 200);
+          assert.deepEqual(res.body, { error: 'required fields missing'});
+          done();
+        });
+    });
   });
 });
