@@ -1,5 +1,7 @@
 'use strict';
 
+const Issue = require('../routes/issue'); 
+
 module.exports = function (app) {
 
   app.route('/api/issues/:project')
@@ -23,7 +25,7 @@ module.exports = function (app) {
 
       if (!issue_title || !issue_text || !created_by){
         return res.status(200).json({
-          error: 'required fields missing'
+          error: 'required field(s) missing'
         });
       }
         try {
@@ -54,13 +56,13 @@ module.exports = function (app) {
       const { _id, ...updates } = req.body;
 
       if (!_id){
-        return res.json({
+        return res.status(200).json({
           error: 'missing _id'
         });
       }
       
       if(Object.keys(updates).length===0) {
-        return res.json({ error: "no update field(s) sent", _id});
+        return res.status(200).json({ error: "no update field(s) sent", _id});
       }
 
       try {
@@ -71,12 +73,12 @@ module.exports = function (app) {
           return res.json({ error: 'could not update', _id});
         }
 
-        res.json({result:'sucessfully updated', _id});
+        res.json({result:'successfully updated', _id});
       } catch (error){
         res.status(500).json({ error: 'could not update', _id});
       }
     })
-    
+  // delete an issue
     .delete(async function (req, res){
       let project = req.params.project;
       const {_id} = req.body;
